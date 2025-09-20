@@ -1,0 +1,19 @@
+{
+  "name": "user-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "User Manager API (FastAPI + SQLite + Hexagonal + JWT)",
+  "scripts": {
+    "setup": "python scripts/setup.py || py -3 scripts/setup.py || py scripts/setup.py",
+
+    "prepare-folders": "node -e \"const fs=require('fs'); ['data','logs'].forEach(d=>fs.mkdirSync(d,{recursive:true}));\"",
+
+    "postinstall": "npm run setup && (python -m venv .venv || py -3 -m venv .venv) && (.venv/bin/python -m pip install -r requirements.txt || .venv\\Scripts\\python -m pip install -r requirements.txt) && npm run prepare-folders",
+
+    "dev": ".venv/bin/uvicorn app.main:app --reload --host 0.0.0.0 --port 9025 || .venv\\Scripts\\uvicorn app.main:app --reload --host 0.0.0.0 --port 9025",
+    "start": ".venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 9025 || .venv\\Scripts\\uvicorn app.main:app --host 0.0.0.0 --port 9025",
+    "test": ".venv/bin/pytest -q --cov=app --cov-report=term-missing || .venv\\Scripts\\pytest -q --cov=app --cov-report=term-missing",
+
+    "clean": "node -e \"const fs=require('fs');const p=['.venv','node_modules','.pytest_cache','app/__pycache__','tests/__pycache__','users.db','.env','package-lock.json'];p.forEach(x=>{try{fs.rmSync(x,{recursive:true,force:true});}catch(e){}});\""
+  }
+}
